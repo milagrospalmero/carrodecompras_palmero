@@ -1,70 +1,115 @@
+// Variables 
+const monto_maximo = 100000;
+const cantidad_maxima = 100;
+const descuento = (d) => {return d * 0.10};
+const iva = (i) => {return i * 0.21};
+const suma = (a,b) => {return a + b};
+const resta = (a,b) => {return a - b};
+const multip = (a,b) => {return a * b};
+const divid = (a,b) => {return a / b};
+const interes3 = (x) => {return x * 0.25}; // Intereses para 2, 3, 4 y 5 Cuotas
+const interes6 = (x) => {return x * 0.35}; // Intereses para 6, 7, 8, 9, 10 y 11 Cuotas
+const interes12 = (x) => {return x * 0.45}; // Intereses para 12 Cuotas
 
-// Array del Carrito de Compra
-const carrito_productos = []; 
+ 
+// Entrada de Datos
+let nombre_producto = prompt("Ingrese el Nombre del Producto");
+let precio_producto = parseFloat(prompt("Ingrese el Precio del Producto"));
+let cantidad_producto = parseInt(prompt("Ingrese Cantidad del Producto"));
+let metodo_pago;
 
-class Compra {
-    constructor(producto) {
-        this.nombre = producto.nombre;
-        this.precio = producto.precio;
-    }
-}
+//Declaracion de Array
+const producto = [nombre_producto, precio_producto, cantidad_producto, metodo_pago]
+console.log(producto);
 
-function mostrarProductos() {
-    let salida = "";
-    let i = 1;
-
-    for (let producto of productos) {
-        salida += i + "- Nombre: " + producto.nombre + " - Precio: $" + producto.precio + "\n";
-        i++;
-    }
-
-    return salida;
-}
-
-
-function agregarCarrito(producto) {
+do {
+    metodo_pago = prompt("Ingrese Método de Pago (Efectivo / Tarjeta").toUpperCase();
     
-    carrito_productos.push(producto);
-}
-
-function mostrarCarrito() {
-    let salida = "Productos comprados:\n\n";
-    let total_pagar = 0;
-
-    for (let producto of carrito_productos) {
-        salida += "Nombre: " + producto.nombre + " - Precio: $" + producto.precio + "\n";
-        total_pagar += parseFloat(producto.precio);
+    if ((metodo_pago == "EFECTIVO") || (metodo_pago == "TARJETA")) {
+        break;
     }
+    
+} while (metodo_pago != "EFECTIVO" || metodo_pago != "TARJETA");
 
-    salida += "\nTotal a Pagar: $" + total_pagar.format(2, 3, '.', ',');
-    alert(salida);
-    console.log("Se listaron los productos comprados!");
-   
+let cuotas;
+
+// Validación de Método de Pago
+if (metodo_pago == "EFECTIVO") {
+    cuotas = 0;
+} else {
+    cuotas = parseInt(prompt("Ingrese la Cantidad de Cuotas (1, 3, 6 y 12)"));
 }
 
-function comprarProducto() {
-    let salir = "";
+// Calcular el Total a Pagar
+let total_pagar_bruto = multip ( precio_producto , cantidad_producto);
+let total_pagar = multip ( precio_producto , cantidad_producto);
+console.log("Total a Pagar: " + total_pagar_bruto);
+//Agrego el IVA al Total a Pagar
+let total_pagar_iva = suma ( total_pagar_bruto, iva (total_pagar_bruto));
+console.log("Total a Pagar (IVA): " + total_pagar_iva);
 
-    while (salir != "ESC") {
-        let lista_productos = mostrarProductos();
-        let productos_seleccionado = parseInt(prompt("Ingrese el Número de Producto  que desea comprar:\n\n" + lista_productos));
+let descuento_aplicado;
+let total_pagar_descuento;
 
-
-        let producto = productos[(productos_seleccionado - 1)];
-
-        
-        agregarCarrito(producto);
-        console.log("Se agrego el Producto al Carrito!");
-        salir = (prompt("Desea comprar otro Producto? (ESC para salir)")).toUpperCase();
-    }
+// Verificiar si supera el Monto Máximo o la Cantidad Máxima de Productos
+if ((total_pagar_iva >= monto_maximo) || (cantidad_producto >= cantidad_maxima)) {
+    total_pagar_descuento = resta (total_pagar_iva, descuento(total_pagar_iva));
+    total_pagar = total_pagar_descuento;
+    console.log("Total a Pagar con Descuento: " + total_pagar);
+    descuento_aplicado = true;
+} else {
+    total_pagar = total_pagar_iva;
+    descuento_aplicado = false;
 }
 
-Number.prototype.format = function(n, x, s, c) {
-    var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')',
-        num = this.toFixed(Math.max(0, ~~n));
+let interes_aplicado;
+let total_pagar_cuotas;
+let interes;
 
-    return (c ? num.replace('.', c) : num).replace(new RegExp(re, 'g'), '$&' + (s || ','));
-};
+// Verifico la Cantidad de Cuotas Ingresada
+if ((cuotas == 0) || (cuotas == 1)) {
+    interes_aplicado = false;
+} else if ((cuotas >= 2) && (cuotas <=5)) {
+    total_pagar_interes = suma (total_pagar , interes3(total_pagar));
+    total_pagar_cuotas = divid (total_pagar_interes, cuotas);
+    interes_aplicado = true;
+    interes = interes3;
+} else if ((cuotas >= 6) && (cuotas <=11)) {
+    total_pagar_interes = suma (total_pagar , interes6(total_pagar));
+    total_pagar_cuotas = divid (total_pagar_interes, cuotas);
+    interes_aplicado = true;
+    interes = interes6;
+} else {
+    total_pagar_interes = suma (total_pagar, interes12(total_pagar));
+    total_pagar_cuotas = divid (total_pagar_interes, cuotas);
+    interes_aplicado = true;
+    interes = interes12;
+}
 
-comprarProducto();
-mostrarCarrito();
+// Salida
+let mensaje = "Producto: " + nombre_producto + "\n";
+
+//Llamado de Array
+mensaje += "Precio por Unidad: " + producto[1] + "\n";
+mensaje += "Cantidad de Productos: " +producto[2] + "\n";
+console.log(producto[1] + " Confimacion de que el Array Funciona")
+console.log(producto[2] + " Confimacion de que el Array Funciona")
+
+mensaje += "Total Bruto: $" + total_pagar_bruto + "\n";
+mensaje += "Total con IVA: $ " + total_pagar_iva + "\n";
+
+if (descuento_aplicado) {
+    mensaje += "Total con Descuento:  $" + total_pagar_descuento + "\n";
+    total_pagar = total_pagar_descuento;
+    
+}
+
+if (interes_aplicado) {
+    mensaje += "Total con Interés:  $" + total_pagar_interes + " \n";
+    mensaje += "Cuotas: " + cuotas + " de $" + total_pagar_cuotas + "\n";
+    total_pagar = total_pagar_cuotas;
+}
+
+mensaje += "TOTAL A PAGAR: $" + total_pagar;
+alert(mensaje);
+console.log(mensaje);
