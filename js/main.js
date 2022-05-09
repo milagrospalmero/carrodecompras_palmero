@@ -1,3 +1,4 @@
+
 // Variables 
 const monto_maximo = 100000;
 const cantidad_maxima = 100;
@@ -13,13 +14,20 @@ const interes12 = (x) => {return x * 0.45}; // Intereses para 12 Cuotas
 
  
 // Entrada de Datos
+let nombre_cliente = prompt("ingrese su nombre");
 let nombre_producto = prompt("Ingrese el Nombre del Producto");
 let precio_producto = parseFloat(prompt("Ingrese el Precio del Producto"));
 let cantidad_producto = parseInt(prompt("Ingrese Cantidad del Producto"));
 let metodo_pago;
 
+
+// capturo el elemento con id saludo y lo guardo en la variable tituloSaludo
+let tituloSaludo = document.getElementById("saludo");
+// A la variaable tituloSaludo le agrego una etiqueta y le incluyo el nombre que capture
+tituloSaludo.innerHTML = `<h2 class ="saludo"> Hola ${nombre_cliente} </h2> `;
+
 //Declaracion de Array
-const producto = [nombre_producto, precio_producto, cantidad_producto, metodo_pago]
+const producto = [nombre_cliente, nombre_producto, precio_producto, cantidad_producto, metodo_pago]
 console.log(producto);
 
 do {
@@ -90,10 +98,10 @@ if ((cuotas == 0) || (cuotas == 1)) {
 let mensaje = "Producto: " + nombre_producto + "\n";
 
 //Llamado de Array
-mensaje += "Precio por Unidad: " + producto[1] + "\n";
-mensaje += "Cantidad de Productos: " +producto[2] + "\n";
-console.log(producto[1] + " Confimacion de que el Array Funciona")
+mensaje += "Precio por Unidad: " + producto[2] + "\n";
+mensaje += "Cantidad de Productos: " +producto[3] + "\n";
 console.log(producto[2] + " Confimacion de que el Array Funciona")
+console.log(producto[3] + " Confimacion de que el Array Funciona")
 
 mensaje += "Total Bruto: $" + total_pagar_bruto + "\n";
 mensaje += "Total con IVA: $ " + total_pagar_iva + "\n";
@@ -113,3 +121,10 @@ if (interes_aplicado) {
 mensaje += "TOTAL A PAGAR: $" + total_pagar;
 alert(mensaje);
 console.log(mensaje);
+
+
+
+// capturo el elemento con id pedido y lo guardo en la contenido_pedido
+let contenido_pedido = document.getElementById("pedido");
+// A la variaable contenido_pedido le agrego una etiqueta y le incluyo el nombre que capture
+tituloSaludo.innerHTML = `<p class ="pedido">  ${nombre_cliente} tu pedido es:  ${mensaje} </p> `;
