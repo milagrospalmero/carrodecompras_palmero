@@ -18,9 +18,33 @@
   <div>
   <p id="pedido"></p>
   </div>
+  
+  <main>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 p-3">
+                    <h2>Formulario de Contacto para envio</h2>
+                    
+                                       
+                    <form id="form2" method="post" action="enviar_email.php">
+                        <label>Nombre:</label>
+                        <input type="text" class="form-control" id="nombre">
+                        <input type="email" class="form-control" id="email">
+                        <input type="submit" value="Enviar"> 
+                        <input type="reset" value="Limpiar">
+                    </form>
+                    
+                </div>
+                            </div>
+        </div>
+    </section>
+</main>
 
     <script src="js/nav.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/formulario.js"></script>
+  
     
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"

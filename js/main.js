@@ -94,6 +94,11 @@ if ((cuotas == 0) || (cuotas == 1)) {
     interes = interes12;
 }
 
+
+//funcion
+function clearBox(contenido_pedido) { document.getElementById(contenido_pedido).innerHTML = ""; }
+
+
 // Salida
 let mensaje = "Producto: " + nombre_producto + "\n";
 
