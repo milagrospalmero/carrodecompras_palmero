@@ -1,4 +1,3 @@
-
 // Variables 
 const monto_maximo = 100000;
 const cantidad_maxima = 100;
@@ -12,22 +11,21 @@ const interes3 = (x) => {return x * 0.25}; // Intereses para 2, 3, 4 y 5 Cuotas
 const interes6 = (x) => {return x * 0.35}; // Intereses para 6, 7, 8, 9, 10 y 11 Cuotas
 const interes12 = (x) => {return x * 0.45}; // Intereses para 12 Cuotas
 
- 
+// Boton de confirmacion
+let boton = document.getElementById("compra");
+boton.addEventListener("click", respuestaClick);
+
+function respuestaClick() {
+    alert("Compra Realizada")}
+
 // Entrada de Datos
-let nombre_cliente = prompt("ingrese su nombre");
 let nombre_producto = prompt("Ingrese el Nombre del Producto");
 let precio_producto = parseFloat(prompt("Ingrese el Precio del Producto"));
 let cantidad_producto = parseInt(prompt("Ingrese Cantidad del Producto"));
 let metodo_pago;
 
-
-// capturo el elemento con id saludo y lo guardo en la variable tituloSaludo
-let tituloSaludo = document.getElementById("saludo");
-// A la variaable tituloSaludo le agrego una etiqueta y le incluyo el nombre que capture
-tituloSaludo.innerHTML = `<h2 class ="saludo"> Hola ${nombre_cliente} </h2> `;
-
 //Declaracion de Array
-const producto = [nombre_cliente, nombre_producto, precio_producto, cantidad_producto, metodo_pago]
+const producto = [nombre_producto, precio_producto, cantidad_producto, metodo_pago]
 console.log(producto);
 
 do {
@@ -94,19 +92,37 @@ if ((cuotas == 0) || (cuotas == 1)) {
     interes = interes12;
 }
 
-
-//funcion
-function clearBox(contenido_pedido) { document.getElementById(contenido_pedido).innerHTML = ""; }
-
-
 // Salida
+//DOM
+var salida = document.getElementsByClassName("salida");
+console.log(salida);
+console.log(salida[0].innerHTML);
+console.log(salida[1].innerHTML);
+console.log(salida[2].innerHTML);
+console.log(salida[3].innerHTML);
+console.log(salida[4].innerHTML);
+console.log(salida[5].innerHTML);
+console.log(salida[6].innerHTML);
+console.log(salida[7].innerHTML);
+console.log(salida[8].innerHTML);
+salida[0].innerHTML = "Producto: " + nombre_producto;
+salida[1].innerHTML = "Precio del Producto: " + "$" +precio_producto + ".-";
+salida[2].innerHTML = "Cantidad del Producto: " + cantidad_producto;
+salida[3].innerHTML = "Método de Pago:  " + metodo_pago;
+
+salida[4].innerHTML = "Precio Total a Pagar Bruto:  " + "$" + total_pagar_bruto + ".-";
+salida[5].innerHTML = "Total con Descuentos (Si se aplica):  " + "$" + total_pagar_descuento + ".-";
+salida[6].innerHTML = "Cantidad de cuotas y monto de cada cuota:  " + cuotas + " de $" + total_pagar_cuotas + ".-";
+salida[7].innerHTML = "Total con Intereses (Si se aplica):  " + "$" + total_pagar_interes + ".-";
+salida[8].innerHTML = "TOTAL A PAGAR:  " + "$" + total_pagar + ".-";
+
 let mensaje = "Producto: " + nombre_producto + "\n";
 
 //Llamado de Array
-mensaje += "Precio por Unidad: " + producto[2] + "\n";
-mensaje += "Cantidad de Productos: " +producto[3] + "\n";
+mensaje += "Precio por Unidad: " + producto[1] + "\n";
+mensaje += "Cantidad de Productos: " +producto[2] + "\n";
+console.log(producto[1] + " Confimacion de que el Array Funciona")
 console.log(producto[2] + " Confimacion de que el Array Funciona")
-console.log(producto[3] + " Confimacion de que el Array Funciona")
 
 mensaje += "Total Bruto: $" + total_pagar_bruto + "\n";
 mensaje += "Total con IVA: $ " + total_pagar_iva + "\n";
@@ -122,14 +138,7 @@ if (interes_aplicado) {
     mensaje += "Cuotas: " + cuotas + " de $" + total_pagar_cuotas + "\n";
     total_pagar = total_pagar_cuotas;
 }
-
+ 
 mensaje += "TOTAL A PAGAR: $" + total_pagar;
 alert(mensaje);
 console.log(mensaje);
-
-
-
-// capturo el elemento con id pedido y lo guardo en la contenido_pedido
-let contenido_pedido = document.getElementById("pedido");
-// A la variaable contenido_pedido le agrego una etiqueta y le incluyo el nombre que capture
-tituloSaludo.innerHTML = `<p class ="pedido">  ${nombre_cliente} tu pedido es:  ${mensaje} </p> `;
